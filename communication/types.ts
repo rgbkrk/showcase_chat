@@ -34,6 +34,7 @@ export interface ApiTextMessage {
   kind: "text";
   roomId: number;
   message: string;
+  autobotActive: boolean;
 }
 
 export interface ApiIsTypingMessage {

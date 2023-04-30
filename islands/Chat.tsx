@@ -82,7 +82,7 @@ export default function Chat({
     if (input === "") {
       return;
     }
-    server.sendMessage(roomId, input);
+    server.sendMessage(roomId, input, autobotActive);
     setInput("");
   };
 

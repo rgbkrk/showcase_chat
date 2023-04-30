@@ -5,7 +5,7 @@ import { databaseLoader } from "@/communication/database.ts";
 import { RoomChannel } from "@/communication/channel.ts";
 import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
-import { autobot, getNextBotResponse } from "@/communication/bot.ts";
+import { getNextBotResponse } from "@/communication/bot.ts";
 
 export async function handler(
   req: Request,
@@ -50,6 +50,11 @@ export async function handler(
     roomId: data.roomId,
     userId: user.userId,
   });
+
+  if (data.autobotActive) {
+    channel.close();
+    return new Response("OK");
+  }
 
   // Call the bot function periodically after receiving a user message, you can use a counter or timestamp to control the frequency
   const messages = [...lastMessages, { message, from, createdAt }];

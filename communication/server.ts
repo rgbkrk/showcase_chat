@@ -7,7 +7,7 @@ import type {
 export class Server {
   subscribeMessages(
     roomId: number,
-    onMessage: (message: ChannelMessage) => void,
+    onMessage: (message: ChannelMessage) => void
   ) {
     const events = new EventSource(`/api/connect/${roomId}`);
     const listener = (e: MessageEvent) => {
@@ -22,11 +22,12 @@ export class Server {
     };
   }
 
-  sendMessage(roomId: number, message: string) {
+  sendMessage(roomId: number, message: string, autobotActive: boolean) {
     const data: ApiTextMessage = {
       kind: "text",
       message,
       roomId,
+      autobotActive,
     };
     fetch("/api/send", {
       method: "POST",
