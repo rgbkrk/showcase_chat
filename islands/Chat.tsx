@@ -170,7 +170,6 @@ function Message({ message }: { message: MessageView }) {
           dangerouslySetInnerHTML={{
             __html: render(message.message, {
               allowMath: true,
-              inline: true,
             }),
           }}
         />

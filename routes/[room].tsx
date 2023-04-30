@@ -5,7 +5,6 @@ import { databaseLoader } from "@/communication/database.ts";
 import Chat from "@/islands/Chat.tsx";
 import type { MessageView, UserView } from "@/communication/types.ts";
 import { Page } from "@/helpers/Page.tsx";
-import { CSS, KATEX_CSS } from "https://deno.land/x/gfm@0.2.1/mod.ts";
 
 import "https://esm.sh/prismjs@1.29.0/components/prism-typescript?no-check";
 import "https://esm.sh/prismjs@1.29.0/components/prism-bash?no-check";
@@ -53,8 +52,6 @@ export default function Room({ data, params }: PageProps<Data>) {
     <>
       <Head>
         <title>{data.roomName} | Deno Chat</title>
-        <style dangerouslySetInnerHTML={{ __html: CSS }} />
-        <style dangerouslySetInnerHTML={{ __html: KATEX_CSS }} />
       </Head>
       <Page>
         <Chat
