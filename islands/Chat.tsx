@@ -2,7 +2,6 @@ import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import twas from "twas";
 import type { MessageView, UserView } from "../communication/types.ts";
 import { server } from "@/communication/server.ts";
-import snarkdown from "npm:snarkdown";
 
 export default function Chat({
   roomId,
@@ -164,11 +163,7 @@ function Message({ message }: { message: MessageView }) {
             {twas(new Date(message.createdAt).getTime())}
           </span>
         </p>
-        {/* Add the following line to render the message as Markdown */}
-        <p
-          class="text-sm text-gray-800"
-          dangerouslySetInnerHTML={{ __html: snarkdown(message.message) }}
-        />
+        <p class="text-sm text-gray-800">{message.message}</p>
       </div>
     </div>
   );
