@@ -34,23 +34,11 @@ export async function handler(
   const badWordsCleaner = await badWordsCleanerLoader.getInstance();
   const message = emojify(badWordsCleaner.clean(data.message));
 
-  if (data.kind === "botText") {
-    channel.sendBotText({
-      // Update here to send bot message
-      message: message,
-      from: {
-        name: BOT_NAME,
-        avatarUrl: BOT_AVATAR_URL,
-      },
-      createdAt: new Date().toISOString(),
-    });
-  } else {
-    channel.sendText({
-      message: message,
-      from,
-      createdAt: new Date().toISOString(),
-    });
-  }
+  channel.sendText({
+    message: message,
+    from,
+    createdAt: new Date().toISOString(),
+  });
   channel.close();
 
   await database.insertMessage({

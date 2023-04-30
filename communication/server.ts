@@ -35,6 +35,19 @@ export class Server {
     });
   }
 
+  sendBotMessage(roomId: number, message: string) {
+    // Add this method
+    const data: ApiTextMessage = {
+      kind: "botText",
+      message,
+      roomId,
+    };
+    fetch("/api/send", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
   sendIsTyping(roomId: number) {
     const data: ApiIsTypingMessage = {
       kind: "isTyping",

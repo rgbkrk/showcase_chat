@@ -2,6 +2,9 @@
 import "$std/dotenv/load.ts";
 
 import { Database } from "@/communication/database.ts";
+import { Server } from "@/communication/server.ts"; // Add this import
+
+const server = new Server(); // Add this line
 
 const BOT_NAME = "Origamist";
 const BOT_AVATAR_URL =
@@ -24,6 +27,9 @@ async function main() {
       botName: BOT_NAME,
       botAvatarUrl: BOT_AVATAR_URL,
     });
+
+    server.sendBotMessage(roomId, message);
+
     console.log(`Bot sent message to room ${roomName}: ${message}`);
   }, 5000);
 }
