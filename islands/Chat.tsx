@@ -27,6 +27,17 @@ export default function Chat({
     interval: number;
   } | null>(null);
 
+  const [autobotActive, setAutobotActive] = useState<boolean>(false);
+  const toggleAutobot = async () => {
+    const response = await fetch("/api/autobot", {
+      method: "POST",
+      body: JSON.stringify({ roomId }),
+    });
+    if (response.ok) {
+      setAutobotActive((prevState) => !prevState);
+    }
+  };
+
   useEffect(() => {
     Notification.requestPermission();
 
@@ -96,6 +107,15 @@ export default function Chat({
         </div>
 
         <div class="h-6 mt-1">
+          <button
+            onClick={toggleAutobot}
+            class={`px-2 py-1 focus:outline-none text-sm mr-2 rounded ${
+              autobotActive ? "bg-green-500 text-white" : "bg-white"
+            }`}
+          >
+            Autobot {autobotActive ? "ON" : "OFF"}
+          </button>
+
           {typing && (
             <div class="text-sm text-gray-400">
               <span class="text-gray-800">{typing.user.name}</span> is typing...

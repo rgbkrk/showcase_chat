@@ -43,14 +43,19 @@ export async function getNextBotResponse(
   }
 }
 
-export async function autobot(roomId: number): Promise<void> {
+export async function autobot(
+  roomId: number,
+  stopSignal: { stop: boolean }
+): Promise<void> {
   const database = await databaseLoader.getInstance();
   const botUserId = await database.ensureBotUser();
   const channel = new RoomChannel(roomId);
 
-  const messages = await database.getRoomMessages(roomId, 10);
-
   while (true) {
+    if (stopSignal.stop) {
+      break;
+    }
+    const messages = await database.getRoomMessages(roomId, 10);
     const botResponse = await getNextBotResponse(messages);
     if (botResponse) {
       channel.sendText({
@@ -70,4 +75,5 @@ export async function autobot(roomId: number): Promise<void> {
     }
     await sleep(1);
   }
+  channel.close();
 }
