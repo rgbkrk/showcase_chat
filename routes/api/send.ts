@@ -47,17 +47,21 @@ export async function handler(
 
   // Call the bot function periodically after receiving a user message, you can use a counter or timestamp to control the frequency
   const messages = [...lastMessages, { message, from, createdAt }];
+
   const botResponse = await getNextBotResponse(messages);
   const botUserId = await database.ensureBotUser();
 
-  channel.sendText({
-    message: botResponse,
-    from: {
-      name: "Bot",
-      avatarUrl: "https://example.com/bot-avatar.png",
-    },
-    createdAt: new Date().toISOString(),
-  });
+  if (botResponse !== null) {
+    channel.sendText({
+      message: botResponse,
+      from: {
+        name: "Papersnake",
+        avatarUrl:
+          "https://chat.notebookgpt.com/origami/static/images/snakelogo.png",
+      },
+      createdAt: new Date().toISOString(),
+    });
+  }
 
   channel.close();
 
@@ -66,11 +70,13 @@ export async function handler(
     roomId: data.roomId,
     userId: user.userId,
   });
-  await database.insertMessage({
-    text: botResponse,
-    roomId: data.roomId,
-    userId: botUserId,
-  });
+  if (botResponse !== null) {
+    await database.insertMessage({
+      text: botResponse,
+      roomId: data.roomId,
+      userId: botUserId,
+    });
+  }
 
   return new Response("OK");
 }

@@ -2,24 +2,29 @@ import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import twas from "twas";
 import type { MessageView, UserView } from "../communication/types.ts";
 import { server } from "@/communication/server.ts";
+import snarkdown from "npm:snarkdown";
 
-export default function Chat(
-  { roomId, roomName, initialMessages, user }: {
-    roomId: number;
-    roomName: string;
-    initialMessages: MessageView[];
-    user: UserView;
-  },
-) {
+export default function Chat({
+  roomId,
+  roomName,
+  initialMessages,
+  user,
+}: {
+  roomId: number;
+  roomName: string;
+  initialMessages: MessageView[];
+  user: UserView;
+}) {
   const messagesContainer = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
   const [messages, addMessage] = useReducer<MessageView[], MessageView>(
     (msgs, msg) => [...msgs, msg],
-    initialMessages,
+    initialMessages
   );
-  const [typing, setTyping] = useState<
-    { user: UserView; interval: number } | null
-  >(null);
+  const [typing, setTyping] = useState<{
+    user: UserView;
+    interval: number;
+  } | null>(null);
 
   useEffect(() => {
     Notification.requestPermission();
@@ -83,11 +88,10 @@ export default function Chat(
           <div />
         </div>
 
-        <div
-          class="flex-auto overflow-y-scroll"
-          ref={messagesContainer}
-        >
-          {messages.map((msg) => <Message message={msg} />)}
+        <div class="flex-auto overflow-y-scroll" ref={messagesContainer}>
+          {messages.map((msg) => (
+            <Message message={msg} />
+          ))}
         </div>
 
         <div class="h-6 mt-1">
@@ -112,7 +116,11 @@ export default function Chat(
   );
 }
 
-function ChatInput({ input, onInput, onSend }: {
+function ChatInput({
+  input,
+  onInput,
+  onSend,
+}: {
   input: string;
   onInput: (input: string) => void;
   onSend: () => void;
@@ -151,14 +159,16 @@ function Message({ message }: { message: MessageView }) {
       />
       <div>
         <p class="flex items-baseline mb-1.5">
-          <span class="mr-2 font-bold">
-            {message.from.name}
-          </span>
+          <span class="mr-2 font-bold">{message.from.name}</span>
           <span class="text-xs text-gray-400 font-extralight">
             {twas(new Date(message.createdAt).getTime())}
           </span>
         </p>
-        <p class="text-sm text-gray-800">{message.message}</p>
+        {/* Add the following line to render the message as Markdown */}
+        <p
+          class="text-sm text-gray-800"
+          dangerouslySetInnerHTML={{ __html: snarkdown(message.message) }}
+        />
       </div>
     </div>
   );
