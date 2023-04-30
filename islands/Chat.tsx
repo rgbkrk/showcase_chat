@@ -3,6 +3,8 @@ import twas from "twas";
 import type { MessageView, UserView } from "../communication/types.ts";
 import { server } from "@/communication/server.ts";
 
+import { render } from "https://deno.land/x/gfm/mod.ts";
+
 export default function Chat({
   roomId,
   roomName,
@@ -88,9 +90,9 @@ export default function Chat({
         </div>
 
         <div class="flex-auto overflow-y-scroll" ref={messagesContainer}>
-          {messages.map((msg) => (
-            <Message message={msg} />
-          ))}
+          {messages.map((msg) => {
+            return <Message message={msg} />;
+          })}
         </div>
 
         <div class="h-6 mt-1">
@@ -163,7 +165,12 @@ function Message({ message }: { message: MessageView }) {
             {twas(new Date(message.createdAt).getTime())}
           </span>
         </p>
-        <p class="text-sm text-gray-800">{message.message}</p>
+        <div
+          class="mt-8 markdown-body"
+          dangerouslySetInnerHTML={{
+            __html: render(message.message),
+          }}
+        />
       </div>
     </div>
   );

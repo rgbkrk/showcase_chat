@@ -39,8 +39,9 @@ export class Database {
   }
 
   async ensureBotUser() {
-    const botName = "Bot";
-    const botAvatarUrl = "https://example.com/bot-avatar.png";
+    const botName = "Papersnake";
+    const botAvatarUrl =
+      "https://chat.notebookgpt.com/origami/static/images/snakelogo.png";
     const { data, error } = await this.#client
       .from("users")
       .select("id")
