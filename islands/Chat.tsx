@@ -3,7 +3,7 @@ import twas from "twas";
 import type { MessageView, UserView } from "../communication/types.ts";
 import { server } from "@/communication/server.ts";
 
-import { render } from "https://deno.land/x/gfm/mod.ts";
+import { render } from "https://deno.land/x/gfm@0.2.1/mod.ts";
 
 export default function Chat({
   roomId,
@@ -170,6 +170,7 @@ function Message({ message }: { message: MessageView }) {
           dangerouslySetInnerHTML={{
             __html: render(message.message, {
               allowMath: true,
+              inline: true,
             }),
           }}
         />

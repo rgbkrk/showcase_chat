@@ -5,7 +5,13 @@ import { databaseLoader } from "@/communication/database.ts";
 import Chat from "@/islands/Chat.tsx";
 import type { MessageView, UserView } from "@/communication/types.ts";
 import { Page } from "@/helpers/Page.tsx";
-import { CSS, KATEX_CSS } from "https://deno.land/x/gfm@0.2.1/style.js";
+import { CSS, KATEX_CSS } from "https://deno.land/x/gfm@0.2.1/mod.ts";
+
+import "https://esm.sh/prismjs@1.29.0/components/prism-typescript?no-check";
+import "https://esm.sh/prismjs@1.29.0/components/prism-bash?no-check";
+import "https://esm.sh/prismjs@1.29.0/components/prism-rust?no-check";
+import "https://esm.sh/prismjs@1.29.0/components/prism-python?no-check";
+import "https://esm.sh/prismjs@1.29.0/components/prism-r?no-check";
 
 interface Data {
   messages: MessageView[];

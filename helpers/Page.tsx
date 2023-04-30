@@ -1,9 +1,15 @@
+import { Head } from "$fresh/runtime.ts";
 import { ComponentChildren } from "preact";
 import { Footer } from "./Footer.tsx";
+import { CSS, KATEX_CSS } from "https://deno.land/x/gfm@0.2.1/mod.ts";
 
 export function Page({ children }: { children: ComponentChildren }) {
   return (
     <>
+      <Head>
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
+        <style dangerouslySetInnerHTML={{ __html: KATEX_CSS }} />
+      </Head>
       <img
         src="/background.png"
         alt="bg"
