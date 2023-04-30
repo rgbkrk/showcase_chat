@@ -5,7 +5,7 @@ import { databaseLoader } from "@/communication/database.ts";
 import { RoomChannel } from "@/communication/channel.ts";
 import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
-import { getNextBotResponse } from "../../communication/bot.ts";
+import { getNextBotResponse } from "@/communication/bot.ts";
 
 export async function handler(
   req: Request,
