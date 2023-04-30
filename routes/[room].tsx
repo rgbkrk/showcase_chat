@@ -5,6 +5,7 @@ import { databaseLoader } from "@/communication/database.ts";
 import Chat from "@/islands/Chat.tsx";
 import type { MessageView, UserView } from "@/communication/types.ts";
 import { Page } from "@/helpers/Page.tsx";
+import { CSS, KATEX_CSS } from "https://deno.land/x/gfm@0.2.1/style.js";
 
 interface Data {
   messages: MessageView[];
@@ -14,7 +15,7 @@ interface Data {
 
 export const handler: Handler<Data> = async (
   req: Request,
-  ctx: HandlerContext<Data>,
+  ctx: HandlerContext<Data>
 ): Promise<Response> => {
   // Get cookie from request header and parse it
   const accessToken = getCookies(req.headers)["deploy_chat_token"];
@@ -46,6 +47,8 @@ export default function Room({ data, params }: PageProps<Data>) {
     <>
       <Head>
         <title>{data.roomName} | Deno Chat</title>
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
+        <style dangerouslySetInnerHTML={{ __html: KATEX_CSS }} />
       </Head>
       <Page>
         <Chat

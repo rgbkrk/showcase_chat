@@ -77,7 +77,7 @@ export default function Chat({
 
   return (
     <>
-      <div class="w-5/6 md:w-1/2 h-2/3 rounded-2xl mb-5 pl-6 flex flex-col pt-4 pb-2">
+      <div class="w-full md:w-3/4 h-4/5 rounded-2xl mb-5 pl-6 flex flex-col pt-4 pb-2">
         <div class="h-8 flex-none pl-1 pr-7 mb-16 flex justify-between items-center">
           <a
             href="/"
@@ -168,7 +168,9 @@ function Message({ message }: { message: MessageView }) {
         <div
           class="mt-8 markdown-body"
           dangerouslySetInnerHTML={{
-            __html: render(message.message),
+            __html: render(message.message, {
+              allowMath: true,
+            }),
           }}
         />
       </div>
