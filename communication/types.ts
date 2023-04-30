@@ -3,7 +3,7 @@ export type ChannelMessage =
   | RoomIsTypingChannelMessage;
 
 export interface RoomTextChannelMessage extends MessageView {
-  kind: "text";
+  kind: "text" | "botText";
 }
 
 export interface RoomIsTypingChannelMessage {
@@ -31,7 +31,7 @@ export interface RoomView {
 export type ApiSendMessage = ApiTextMessage | ApiIsTypingMessage;
 
 export interface ApiTextMessage {
-  kind: "text";
+  kind: "text" | "botText";
   roomId: number;
   message: string;
 }

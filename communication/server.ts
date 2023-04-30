@@ -1,3 +1,4 @@
+// communication/server.ts
 import type {
   ApiIsTypingMessage,
   ApiTextMessage,
@@ -7,7 +8,7 @@ import type {
 export class Server {
   subscribeMessages(
     roomId: number,
-    onMessage: (message: ChannelMessage) => void,
+    onMessage: (message: ChannelMessage) => void
   ) {
     const events = new EventSource(`/api/connect/${roomId}`);
     const listener = (e: MessageEvent) => {

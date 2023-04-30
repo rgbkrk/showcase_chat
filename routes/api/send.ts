@@ -1,3 +1,4 @@
+// routes/api/send.ts
 import { HandlerContext } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import { emojify } from "emojify";
@@ -8,7 +9,7 @@ import { ApiSendMessage } from "@/communication/types.ts";
 
 export async function handler(
   req: Request,
-  _ctx: HandlerContext,
+  _ctx: HandlerContext
 ): Promise<Response> {
   const accessToken = getCookies(req.headers)["deploy_chat_token"];
   if (!accessToken) {
@@ -33,11 +34,23 @@ export async function handler(
   const badWordsCleaner = await badWordsCleanerLoader.getInstance();
   const message = emojify(badWordsCleaner.clean(data.message));
 
-  channel.sendText({
-    message: message,
-    from,
-    createdAt: new Date().toISOString(),
-  });
+  if (data.kind === "botText") {
+    channel.sendBotText({
+      // Update here to send bot message
+      message: message,
+      from: {
+        name: BOT_NAME,
+        avatarUrl: BOT_AVATAR_URL,
+      },
+      createdAt: new Date().toISOString(),
+    });
+  } else {
+    channel.sendText({
+      message: message,
+      from,
+      createdAt: new Date().toISOString(),
+    });
+  }
   channel.close();
 
   await database.insertMessage({
